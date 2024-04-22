@@ -557,49 +557,44 @@ with open('/home/hussain/FInalize/media/itos.pkl','rb') as f:
 print(len(try_load))
 print(try_load[0])
 
+
 #%%
-# Visualize the attention working
-#generate caption
-def get_caps_from(features_tensors):
-    #generate the caption
-    model.eval()
-    with torch.no_grad():
-        features = model.encoder(features_tensors.to(device))
-        caps,alphas = model.decoder.generate_caption(features,vocab=dataset.vocab)
-        caption = ' '.join(caps)
-        show_image(features_tensors[0],title=caption)
-    
-    return caps,alphas
-
-#Show attention
-def plot_attention(img, result, attention_plot):
-    #untransform
-    img[0] = img[0] * 0.229
-    img[1] = img[1] * 0.224 
-    img[2] = img[2] * 0.225 
-    img[0] += 0.485 
-    img[1] += 0.456 
-    img[2] += 0.406
-    
-    img = img.numpy().transpose((1, 2, 0))
-    temp_image = img
-
-    fig = plt.figure(figsize=(15, 15))
-
-    len_result = len(result)
-    for l in range(len_result):
-        temp_att = attention_plot[l].reshape(7,7)
-        
-        ax = fig.add_subplot(len_result//2,len_result//2, l+1)
-        ax.set_title(result[l])
-        img = ax.imshow(temp_image)
-        ax.imshow(temp_att, cmap='gray', alpha=0.7, extent=img.get_extent())
-        
-
-    plt.tight_layout()
+from collections import Counter
+import spacy
+spacy_english = spacy.load("en_core_web_sm")
+# Function to plot frequent words
+def plot_top_frequent_words(caption_list,title,top_count=50):
+    words=[]
+    for caption in caption_list:
+        caption_tokenized=[token.text.lower() for token in spacy_english.tokenizer(caption)]
+        words.extend(caption_tokenized)
+    total_freq=Counter(words)
+    total_freq=total_freq.most_common(top_count)
+    words, frequencies = zip(*total_freq)
+    plt.figure(figsize=(12, 6))
+    plt.bar(words, frequencies)
+    plt.xlabel('Words')
+    plt.ylabel('Frequency')
+    plt.title(title)
+    plt.xticks(rotation=90)
     plt.show()
 
+def calculate_rouge_score(image_captions,predicted_caption):
+    """
+    Function which calculates the best the rouge-l f-score  for a given list of image captions against the predicted caption
+    """
+
+    rouge=Rouge()
+    caption_score_map={}
+    for caption in image_captions:
+        caption_score_map[caption]=rouge.get_scores(predicted_caption, caption)[0]['rouge-l']['f']
+    best_match=max(caption_score_map,key=caption_score_map.get)
+    best_score=round(caption_score_map[best_match],3)
+    return (best_match,best_score)
+
 #%%
+# Plotting top 10 frequently predicted words
+
 test = pd.read_csv('/home/hussain/FInalize/media/test.csv')
 test = test.explode("caption").reset_index(drop=True)
 image_location =  '/home/hussain/FInalize/Flicker/Images'
@@ -613,15 +608,7 @@ with open('/home/hussain/FInalize/media/itos.pkl','rb') as f:
     itos = pickle.load(f)
 with open('/home/hussain/FInalize/media/stoi.pkl','rb') as f:
     stoi = pickle.load(f)
-
 test_dataset=FlickrDataset(image_location,test,transform=transforms,i_c_map=True,itos=itos,stoi=stoi)
-test_loader = get_data_loader(
-    dataset=test_dataset,
-    batch_size=32,
-    num_workers=4,
-    shuffle=True,
-    # batch_first=False
-)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = EncoderDecoder(
     embed_size=300,
@@ -630,16 +617,32 @@ model = EncoderDecoder(
     encoder_dim=2048,
     decoder_dim=512
 ).to(device)
-
 model_path = 'checking_model_state.pth'
 model_state = torch.load(model_path)
 model.load_state_dict(model_state['state_dict'])
 model.eval()
-dataiter = iter(test_loader)
-images,_ = next(dataiter)
 
-img = images[0].detach().clone()
-img1 = images[0].detach().clone()
-caps,alphas = get_caps_from(img.unsqueeze(0))
+test_idx=0
+test_images=test_dataset.imgs
+test_captions=test_dataset.captions
+rouge_score_map={}
+while test_idx <len(test_captions):
+    image_captions=test_captions[test_idx:test_idx+5]
+    test_img = Image.open(os.path.join(image_location,test_images[test_idx])).convert("RGB")                
+    test_img = transforms(test_img)
+    transform_image = test_img.unsqueeze(0)
+    test_features = model.encoder(transform_image.to(device))
+    test_caps,test_alphas = model.decoder.generate_caption(test_features,vocab=test_dataset.vocab)
+    test_caption = ' '.join(test_caps)
+    best_caption,best_score=calculate_rouge_score(image_captions,test_caption)
+    rouge_score_map[test_images[test_idx]]=(best_caption,test_caption,best_score)
+    test_idx+=5
+print(len(rouge_score_map))
 
-plot_attention(img1, caps, alphas)
+predicted_captions=[score_map[1] for score_map in rouge_score_map.values()]
+prediction_title="Top 50 Frequent words in the predicted captions"
+plot_top_frequent_words(predicted_captions,prediction_title)
+
+test_captions=[score_map[0] for score_map in rouge_score_map.values()]
+test_title="Top 50 Frequent words in the best matching test captions"
+plot_top_frequent_words(test_captions,test_title)
