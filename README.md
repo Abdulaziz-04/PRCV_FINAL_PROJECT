@@ -13,7 +13,7 @@ In this project we delved deep into the concept of image captioning and have bui
 - Top words distributions in predicted captions and original best matching caption of test dataset
 - Top best captions and worst captions
 
-The point of exploring the full transformer based image captioning architecture is that RNN has limitations with long subsequences and transformers provide room for parallel processing.
+The point of exploring the full transformer based image captioning architecture is that RNN has limitations with long subsequences and transformers provide room for parallel processing as well so it would provide a good insight into state of the art methods used in the domain.
 
 Project Update  and File Structure: 
 After discussing with the Professor, we have shifted our dataset from COCO to Flickr8K due to issues with memory and compute power. We have 2 models and compared with Vit-GPT2 model from Hugging Face, the files and folders for which are defined below:
