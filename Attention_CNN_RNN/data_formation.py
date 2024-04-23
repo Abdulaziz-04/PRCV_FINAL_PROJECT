@@ -1,3 +1,16 @@
+"""
+Project: - ImageNarrative: From COnventional to Cutting Edge Captioning
+Author: - Hussain Kanchwala
+Start Date: - 04/22/24 End Date: - 04/22/24
+
+
+Description: - 
+This file contrains the functions to generate the vocabulary for the dataset by creating indexes associated with each word.
+The get_data_loader function creates a dataloader for the dataset. The captions for the dataset are numericalized and the images are 
+transformed according to the transformation provided while creating the FlickerDataset() class
+"""
+
+
 #imports 
 import os
 from collections import Counter

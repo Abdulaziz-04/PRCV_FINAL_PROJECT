@@ -1,5 +1,17 @@
+"""
+Project: - ImageNarrative: From Conventional to Cutting Edge Captioning
+Author: - Hussain Kanchwala
+Start Date: - 04/22/24 End Date: - 04/22/24
+
+
+Description: - 
+This file contrains the CNN-RNN with Attention model and necessary steps to transform the raw data so as to able to learned by the model.
+Added to that the file contains steps to analyze the trained model based on Rouge Scores and qualitatively assessing the predictions.
+"""
+
 #%% 
 # IMPORT NECESSARY PACKAGES
+
 import numpy as np
 import torch
 from torch.utils.data import DataLoader,Dataset, random_split
@@ -21,6 +33,7 @@ import pickle
 from data_formation import FlickrDataset,get_data_loader
 
 #%%
+# This section deals with vocabulary generation and creating dataloaders for train, test and validation datasets
 
 image_location =  '/home/hussain/FInalize/Flicker/Images'
 caption_file_location = '/home/hussain/FInalize/Flicker/captions.txt'
@@ -147,6 +160,7 @@ class EncoderCNN(nn.Module):
 
 #%%
 # Attention
+    
 class Attention(nn.Module):
     def __init__(self,encoder_dim,decoder_dim,attention_dim):
         super(Attention,self).__init__()
@@ -174,6 +188,7 @@ class Attention(nn.Module):
     
 #%%
 # Decoder RNN
+    
 class DecoderRNN(nn.Module):
     def __init__(self,embed_size, vocab_size, attention_dim,encoder_dim,decoder_dim,drop_prob=0.3):
         super().__init__()
@@ -275,6 +290,7 @@ class DecoderRNN(nn.Module):
     
 #%%
 # Model
+    
 class EncoderDecoder(nn.Module):
     def __init__(self,embed_size, vocab_size, attention_dim,encoder_dim,decoder_dim,drop_prob=0.3):
         super().__init__()
@@ -294,6 +310,7 @@ class EncoderDecoder(nn.Module):
 
 #%%
 # Hyperparams
+    
 embed_size=300
 vocab_size = len(dataset.vocab)
 print(vocab_size)
@@ -304,6 +321,7 @@ learning_rate = 3e-4
 
 #%%
 #init model
+
 model = EncoderDecoder(
     embed_size=300,
     vocab_size = len(dataset.vocab),
@@ -317,6 +335,7 @@ optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
 #%%
 #helper function to save the model
+
 def save_model(model,num_epochs):
     model_state = {
         'num_epochs':num_epochs,
@@ -332,12 +351,14 @@ def save_model(model,num_epochs):
 
 #%% 
 # Rouge score Calculation function
+    
 def calculate_max_rouge_score(generated_caption, true_caption):
     rouge = Rouge()
     score = rouge.get_scores(generated_caption, true_caption)[0]['rouge-l']['f']  # Consider only the f-score of Rouge-L
     return score
 
 #%%
+# This section deals with training the model
 # Training the model
 num_epochs = 100
 train_loss=[]
@@ -593,7 +614,7 @@ def calculate_rouge_score(image_captions,predicted_caption):
     return (best_match,best_score)
 
 #%%
-# Plotting top 10 frequently predicted words
+# Plotting top 50 frequent words in test datat and predictions
 
 test = pd.read_csv('/home/hussain/FInalize/media/test.csv')
 test = test.explode("caption").reset_index(drop=True)
