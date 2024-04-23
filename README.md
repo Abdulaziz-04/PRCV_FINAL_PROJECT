@@ -27,9 +27,11 @@ After discussing with the Professor, we have shifted our dataset from COCO to Fl
     -   main.py : This file is where the model is defined, pre processing is done, model is trained and evaluation is done on the trained model.
     -   data_loader.py : Defines functions for preprocessing the data and generating dataloader
 
-- Presentation Video : 
+- Presentation Video :
+
 - Dataset URL : Flickr8K dataset (https://www.kaggle.com/datasets/adityajn105/flickr8k/data)
-- Trained Models Link : https://drive.google.com/drive/folders/1QvCswOZfy7H-OtVsYRTDVNrXp3F2V6IZ?usp=sharing
-        - The CNN-RNN model trained on Flicker8k dataset is present in the folder "cnn_rnn_model"
-        - The CNN-RNN With Attention model trained on Flicker8k dataset is present in the folder "cnn_rnn_with_attention_model"
-        - The Vit-Gpt2 model retrained on Flicker8k is present in the folder "ViT_GPT2_Model"
+
+- Trained Models Link : https://drive.google.com/drive/folders/1QvCswOZfy7H-OtVsYRTDVNrXp3F2V6IZ?usp=sharing 
+    - The CNN-RNN model trained on Flicker8k dataset is present in the folder "cnn_rnn_model" 
+    - The CNN-RNN With Attention model trained on Flicker8k dataset is present in the folder "cnn_rnn_with_attention_model"
+    - The Vit-Gpt2 model retrained on Flicker8k is present in the folder "ViT_GPT2_Model"
