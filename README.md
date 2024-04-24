@@ -30,6 +30,10 @@ After discussing with the Professor, we have shifted our dataset from COCO to Fl
 - ViT + GPT2 pretrained model from huggingface for evaluation (FOLDER : Vision+GT2_Pretrained)
     - viT_gpt2_pretrained.ipynb : This file loads the huggingface model and evalautes it's performance on the test dataset with results in the notebook.
 
+-Vit + GPT2 model for initial training, evaluation and testing (FOLDER : vit-gpt2-image-captioning)
+    - training-and-validation.ipynb : This file loads the model from kaggle, trains on the flickr8k dataset, evaluates and saves the model.
+    - testing.iynb : This file tests the saved model on a test set of 500 images from the flickr8k dataset.
+
 - Presentation Video :
 
 - Dataset URL : Flickr8K dataset (https://www.kaggle.com/datasets/adityajn105/flickr8k/data)
