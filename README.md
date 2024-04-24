@@ -25,11 +25,11 @@ After discussing with the Professor, we have shifted our dataset from COCO to Fl
 
 - CNN RNN with Attention based architecture (FOLDER : Attention_CNN_RNN)
     -   main.py : This file is where the model is defined, pre processing is done, model is trained and evaluation is done on the trained model.
-    -   data_loader.py : Defines functions for preprocessing the data and generating dataloader
+    -   data_formation.py : Defines functions for preprocessing the data and generating dataloader
       
 - Vit + GPT2 model for initial training, evaluation and testing (FOLDER : vit-gpt2-image-captioning)
     - training-and-validation.ipynb : This file loads the model from kaggle, trains on the flickr8k dataset, evaluates and saves the model.
-    - testing.iynb : This file tests the saved model on a test set of 500 images from the flickr8k dataset.
+    - testing.ipynb : This file tests the saved model on a test set of 500 images from the flickr8k dataset.
 
 - ViT + GPT2 pretrained model from huggingface for evaluation (FOLDER : Vision+GT2_Pretrained)
     - viT_gpt2_pretrained.ipynb : This file loads the huggingface model and evalautes it's performance on the test dataset with results in the notebook.
