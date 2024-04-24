@@ -15,7 +15,7 @@ In this project we delved deep into the concept of image captioning and have bui
 
 The point of exploring the full transformer based image captioning architecture is that RNN has limitations with long subsequences and transformers provide room for parallel processing as well so it would provide a good insight into state of the art methods used in the domain.
 
-Project Update  and File Structure: 
+Project Update and File Structure: 
 After discussing with the Professor, we have shifted our dataset from COCO to Flickr8K due to issues with memory and compute power. We have 2 models compared with Vit-GPT2 model from Hugging Face, the files and folders for which are defined below:
 
 - CNN RNN based architecture (FOLDER : CNN_RNN_Code)
@@ -37,7 +37,7 @@ After discussing with the Professor, we have shifted our dataset from COCO to Fl
 
 
 
-- Presentation Video :
+- Presentation Video : https://drive.google.com/drive/folders/11PNn4FEg-ZpJNqZE6m-HPySnYaLSiett?usp=sharing
 
 - PPT Link : https://drive.google.com/drive/folders/10VyoZEgFrbe7s5n_zZE7oujWIlt3_Ido?usp=sharing
 
