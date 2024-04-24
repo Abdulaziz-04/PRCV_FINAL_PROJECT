@@ -36,7 +36,10 @@ After discussing with the Professor, we have shifted our dataset from COCO to Fl
 
 
 
+
 - Presentation Video :
+
+- PPT Link : https://drive.google.com/drive/folders/10VyoZEgFrbe7s5n_zZE7oujWIlt3_Ido?usp=sharing
 
 - Dataset URL : Flickr8K dataset (https://www.kaggle.com/datasets/adityajn105/flickr8k/data)
 
