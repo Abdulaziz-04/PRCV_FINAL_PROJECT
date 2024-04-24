@@ -26,6 +26,15 @@ After discussing with the Professor, we have shifted our dataset from COCO to Fl
 - CNN RNN with Attention based architecture (FOLDER : Attention_CNN_RNN)
     -   main.py : This file is where the model is defined, pre processing is done, model is trained and evaluation is done on the trained model.
     -   data_loader.py : Defines functions for preprocessing the data and generating dataloader
+      
+- Vit + GPT2 model for initial training, evaluation and testing (FOLDER : vit-gpt2-image-captioning)
+    - training-and-validation.ipynb : This file loads the model from kaggle, trains on the flickr8k dataset, evaluates and saves the model.
+    - testing.iynb : This file tests the saved model on a test set of 500 images from the flickr8k dataset.
+
+- ViT + GPT2 pretrained model from huggingface for evaluation (FOLDER : Vision+GT2_Pretrained)
+    - viT_gpt2_pretrained.ipynb : This file loads the huggingface model and evalautes it's performance on the test dataset with results in the notebook.
+
+
 
 - Presentation Video :
 
@@ -34,4 +43,4 @@ After discussing with the Professor, we have shifted our dataset from COCO to Fl
 - Trained Models Link : https://drive.google.com/drive/folders/1QvCswOZfy7H-OtVsYRTDVNrXp3F2V6IZ?usp=sharing 
     - The CNN-RNN model trained on Flicker8k dataset is present in the folder "cnn_rnn_model" 
     - The CNN-RNN With Attention model trained on Flicker8k dataset is present in the folder "cnn_rnn_with_attention_model"
-    - The Vit-Gpt2 model pre-trained on Flicker8k is present in the folder "Vision+GPT2_Pretrained"
+    - The Vit-Gpt2 model retrained on Flicker8k is present in the folder "ViT_GPT2_Model"
